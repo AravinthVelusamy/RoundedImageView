@@ -153,7 +153,9 @@ public class RoundedImageView extends ImageView {
     public void setImageDrawable(Drawable drawable) {
         if (drawable != null) {
             mDrawable = RoundedDrawable.fromDrawable(drawable, mCornerRadius, mBorderWidth, mBorderColor, mOval);
-            updateDrawableAttrs((RoundedDrawable) mDrawable);
+            if (mDrawable instanceof RoundedDrawable) {
+                updateDrawableAttrs((RoundedDrawable) mDrawable);
+            }
         } else {
             mDrawable = null;
         }
