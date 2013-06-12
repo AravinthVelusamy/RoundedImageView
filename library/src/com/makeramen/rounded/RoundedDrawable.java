@@ -4,8 +4,18 @@
 
 package com.makeramen.rounded;
 
-import android.graphics.*;
+import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
+import android.graphics.BitmapShader;
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.Paint.Style;
+import android.graphics.PixelFormat;
+import android.graphics.Rect;
+import android.graphics.RectF;
+import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -62,6 +72,7 @@ public class RoundedDrawable extends Drawable {
         mBorderPaint.setAntiAlias(true);
         mBorderPaint.setColor(mBorderColor);
         mBorderPaint.setStrokeWidth(border);
+        mBorderPaint.setStyle(Style.STROKE);
     }
 
     protected void setScaleType(ScaleType scaleType) {
@@ -168,6 +179,13 @@ public class RoundedDrawable extends Drawable {
                 mShaderMatrix.setRectToRect(mBitmapRect, mDrawableRect, Matrix.ScaleToFit.FILL);
                 break;
         }
+        
+        // Calculate the offset of the drawing region; this is to account for the width of the stroke.
+        mBorderRect.left = mBorderRect.left + mBorderWidth;
+        mBorderRect.right = mBorderRect.right - mBorderWidth;
+        mBorderRect.top = mBorderRect.top + mBorderWidth;
+        mBorderRect.bottom = mBorderRect.bottom - mBorderWidth;
+        
         mBitmapShader.setLocalMatrix(mShaderMatrix);
     }
 
